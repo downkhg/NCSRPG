@@ -2,75 +2,145 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace User {
+    public static class Collision
+    {
+        static public float ColSphereDist(Vector3 vPos, float fRad, Vector3 vTargetPos)
+        {
+            Vector3 vDist = vTargetPos - vPos;
+            float fDist = vDist.magnitude;
+
+            if (fDist < fRad)
+                return fDist;
+
+            return -1;
+        }
+        static public bool ColSphere(Vector3 vPos, float fRad, Vector3 vTargetPos)
+        {
+            Vector3 vDist = vTargetPos - vPos;
+            float fDist = vDist.magnitude;
+
+            if (fDist < fRad)
+                return true;
+
+            return false;
+        }
+        static public bool ColCircle(Vector2 vPos, float fRad, Vector2 vTargetPos)
+        {
+            Vector2 vDist = vTargetPos - vPos;
+            float fDist = vDist.magnitude;
+
+            if (fDist < fRad)
+                return true;
+
+            return false;
+        }
+    }
+}
+
 public class Dynamic : MonoBehaviour {
-    int m_nKeyCount;
-    public GameObject m_objArm;
     public int m_fMoveSpeed;
     public int m_fRotSpeed;
     public Arm m_cArm;
-    bool m_bAttack;
+    public float m_fDetectRad;
+    Player m_cPlayer;
+    public Player m_cTarget;
+    public GameObject[] m_listGameObjects;
    
     // Use this for initialization
     void Start () {
-        m_cArm.Init(m_fRotSpeed);
+        m_cPlayer = this.gameObject.GetComponent<Player>();
+        m_listGameObjects = GameObject.FindGameObjectsWithTag("Monster");
+        m_cArm.Init(m_fRotSpeed, m_cPlayer, m_cTarget);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Debug.Log("Space key was " + m_nKeyCount);
-            m_nKeyCount++;
-        }
-
         InputProcess();
-	}
+        SphereCollisionProcess();
+    }
     //게임에서 간단한 테스트용 UI로 사용됨.
     private void OnGUI()
     {
-        GUI.Box(new Rect(0, 0, 100, 20), //시작위치x,y,넓이,높이
-                    string.Format("{0}", m_nKeyCount));
+       
     }
 
-    void MoveArm(float rotSpeed)
+    private void OnDrawGizmos()
     {
-        m_objArm.transform.Rotate(Vector3.right * rotSpeed);
+        Gizmos.DrawWireSphere(transform.position, m_fDetectRad);
     }
 
+    void SphereCollisionProcess()
+    {
+        int nNearIdx = -1;
+        if (m_cTarget == null)
+        {
+            for (int i = 0; i < m_listGameObjects.Length; i++)
+            {
+                float fDist = User.Collision.ColSphereDist(transform.position, m_fDetectRad, m_listGameObjects[i].transform.position);
+                if (fDist > 0)
+                {
+                    float fMin = m_fDetectRad;
+                    if (fMin > fDist)
+                    {
+                        fDist = fMin;
+                        nNearIdx = i;
+                    }
+                }
+            }
     
-
-    //코루틴을 사용하면, 매 프레임마다 반복문의 한스탭이 실행되므로,
-    //따로 끝날때 처리를 하지않아도되고, 해당반복의 스탭이 끝나면 실행이 끝난다.
-    //실행중 지역변수들은 코루틴이 끝날때까지 유지된다.
-    IEnumerator AttackArm()
-    {
-        float fMaxRot = 45;
-        float fCurRot = 0;
-
-        while(fCurRot  < fMaxRot)
-        {
-            //매프레임마다 실행
-            MoveArm(m_fRotSpeed);
-            fCurRot += m_fRotSpeed;
-            yield return null; //다음 프레임으로.
+            if (nNearIdx != -1)
+            {
+                m_cTarget = m_listGameObjects[nNearIdx].GetComponent<Player>();
+                if (m_cTarget)
+                    Debug.Log(m_cTarget.gameObject.name);
+                else
+                    Debug.Log("Not Find!");
+            }
         }
-        
-        StartCoroutine("ReleaseArm");
+        else
+        {
+            if (User.Collision.ColSphere(transform.position, m_fDetectRad, m_cTarget.transform.position) == false)
+                m_cTarget = null;
+        }
     }
 
-    IEnumerator ReleaseArm()
+    //OverlapSphere에서 레이어로 분리하는 기능이 정상작동되지않음. 확인필요.
+    void OverlapShereProcess()
     {
-        float fMaxRot = 45;
-        float fCurRot = 0;
+        int nLayer = LayerMask.NameToLayer("Player");
+        Collider[] arrColliders = Physics.OverlapSphere(transform.position, m_fDetectRad, nLayer);
+        if (arrColliders.Length > 0)
+            Debug.Log( ""+arrColliders.Length);
 
-        while (fCurRot < fMaxRot)
+        if (m_cTarget == null)
         {
-            MoveArm(-m_fRotSpeed);
-            fCurRot += m_fRotSpeed;
-            yield return null;
-        }
+            int nNearIdx = -1;
+            for (int i = 0; i < arrColliders.Length; i++)
+            {
+                Transform targetTrans = arrColliders[i].transform;
+                //내위치와 상대위치를 확인
+                Vector3 vPos = this.transform.position;
+                Vector3 vTargetPos = targetTrans.position;
+                Vector3 vDist = vTargetPos - vPos;
+                float fDist = vDist.magnitude;
+                float fMin = 99999999;
+                if (fDist < fMin)
+                {
+                    fMin = fDist;
+                    nNearIdx = i;
+                }
 
-        m_bAttack = false;
+            }
+            if (nNearIdx != -1)
+            {
+                m_cTarget = arrColliders[nNearIdx].GetComponent<Player>();
+                if (m_cTarget)
+                    Debug.Log(m_cTarget.gameObject.name);
+                else
+                    Debug.Log("Not Find!");
+            }
+        }
     }
 
     //케릭터이동 만들기. 키입력을하여만듦
@@ -79,20 +149,11 @@ public class Dynamic : MonoBehaviour {
         float fMoveDist = m_fMoveSpeed * Time.deltaTime;
         float fRotAngle = m_fRotSpeed * Time.deltaTime;
 
-        //if (m_bAttack)
-        //    AttackArmUpdate();
-
         if (Input.GetMouseButtonDown(0))
-        {
-            //MoveArm(m_fRotSpeed);
-            //그냥 코루틴을 이용시에는 코루틴을 부를때마다 
-            //해당 반복문이 실행되므로, 중복해서 계속 동작한다.
-            //if (m_bAttack == false)
-            //{
-            //    StartCoroutine("AttackArm");
-            //    m_bAttack = true;
-            //}
+        { 
             m_cArm.Attack();
+            if(m_cTarget)
+                m_cPlayer.Attack(m_cTarget);
         }
         if (Input.GetKey(KeyCode.W))
         {
