@@ -19,6 +19,9 @@ public class Arm : MonoBehaviour {
         //    ReleaseArmUpdate();
         //else if (m_bAttack)
         //    AttackArmUpdate();
+
+        if (m_cWepon.Hit)
+            m_cPlayer.Attack(m_cTarget);
     }
 
     void MoveArm(float rotSpeed)
@@ -97,9 +100,6 @@ public class Arm : MonoBehaviour {
             m_bAttack = true;
             
             StartCoroutine("AttackArm");
-
-            if (m_cWepon.Hit)
-                m_cPlayer.Attack(m_cTarget);
         }
     }
 
