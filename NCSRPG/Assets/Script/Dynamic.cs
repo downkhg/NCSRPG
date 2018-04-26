@@ -45,19 +45,21 @@ public class Dynamic : MonoBehaviour {
     public float m_fDetectRad;
     Player m_cPlayer;
     public Player m_cTarget;
-    public GameObject[] m_listGameObjects;
    
     // Use this for initialization
     void Start () {
         m_cPlayer = this.gameObject.GetComponent<Player>();
-        m_listGameObjects = GameObject.FindGameObjectsWithTag("Monster");
-        m_cArm.Init(m_fRotSpeed, m_cPlayer, m_cTarget);
+        m_cArm.Init(m_fRotSpeed, m_cPlayer);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        InputProcess();
-        SphereCollisionProcess();
+        if(m_cPlayer.Dead())
+        {
+            gameObject.SetActive(false);
+        }
+        if(tag == "Player")
+            InputProcess();
     }
     //게임에서 간단한 테스트용 UI로 사용됨.
     private void OnGUI()
@@ -70,14 +72,14 @@ public class Dynamic : MonoBehaviour {
         Gizmos.DrawWireSphere(transform.position, m_fDetectRad);
     }
 
-    void SphereCollisionProcess()
+    public void SphereCollisionProcess(List<GameObject> listTarget)
     {
         int nNearIdx = -1;
         if (m_cTarget == null)
         {
-            for (int i = 0; i < m_listGameObjects.Length; i++)
+            for (int i = 0; i < listTarget.Count; i++)
             {
-                float fDist = User.Collision.ColSphereDist(transform.position, m_fDetectRad, m_listGameObjects[i].transform.position);
+                float fDist = User.Collision.ColSphereDist(transform.position, m_fDetectRad, listTarget[i].transform.position);
                 if (fDist > 0)
                 {
                     float fMin = m_fDetectRad;
@@ -91,7 +93,7 @@ public class Dynamic : MonoBehaviour {
     
             if (nNearIdx != -1)
             {
-                m_cTarget = m_listGameObjects[nNearIdx].GetComponent<Player>();
+                m_cTarget = listTarget[nNearIdx].GetComponent<Player>();
                 if (m_cTarget)
                     Debug.Log(m_cTarget.gameObject.name);
                 else
@@ -152,7 +154,7 @@ public class Dynamic : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         { 
             m_cArm.Attack();
-            if(m_cTarget)
+            if (m_cTarget)
                 m_cPlayer.Attack(m_cTarget);
         }
         if (Input.GetKey(KeyCode.W))

@@ -45,14 +45,22 @@ public class Player : MonoBehaviour {
     //스텟
     Status m_cStatus;
 
-    public int m_nMaxHP;
-    public int m_nMaxMP;
+    int m_nMaxHP;
+    int m_nMaxMP;
     //이름
     string m_strName;
     int m_nLv;
     int m_nExp;
 
     int m_nGold; //소지금
+
+    public Status Status { get { return m_cStatus; } }
+    public int MaxHP { get { return m_nMaxHP; } }
+    public int MaxMP { get { return m_nMaxMP; } }
+    public int Lv { get { return m_nLv; } }
+    public int Exp { get { return m_nExp; } }
+    public int Gold { get { return m_nGold; } }
+    public string Name { get { return m_strName; } }
 
     List<Item> m_listIventory = new List<Item>(); //인벤토리.
     List<Item> m_listEqument = new List<Item>((int)eEqumentKind.MAX); //장비함.

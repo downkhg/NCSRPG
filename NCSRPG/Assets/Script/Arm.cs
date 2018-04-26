@@ -20,8 +20,11 @@ public class Arm : MonoBehaviour {
         //else if (m_bAttack)
         //    AttackArmUpdate();
 
-        if (m_cWepon.Hit)
-            m_cPlayer.Attack(m_cTarget);
+        //if (m_cWepon.Hit && m_cTarget != null)
+        //{
+        //    m_cPlayer.Attack(m_cTarget);
+        //    Debug.Log("Attcak:"+m_cTarget.Name);
+        //}
     }
 
     void MoveArm(float rotSpeed)
@@ -103,10 +106,9 @@ public class Arm : MonoBehaviour {
         }
     }
 
-    public void Init(float Attack,Player cPlayer, Player cTarget)
+    public void Init(float Attack,Player cPlayer)
     {
         m_fAttackSpeed = Attack;
         m_cPlayer = cPlayer;
-        m_cTarget = cTarget;
     }
 }

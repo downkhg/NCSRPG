@@ -25,6 +25,7 @@ public class Wepon : MonoBehaviour {
         if(other.gameObject.tag == "Monster")
         {
             m_bHit = true;
+            Debug.Log("OnTriggerEnter:" + other.gameObject.name);
         }
     }
 
@@ -33,6 +34,7 @@ public class Wepon : MonoBehaviour {
         if (other.gameObject.tag == "Monster")
         {
             m_bHit = false;
+            Debug.Log("OnTriggerExit:"+other.gameObject.name);
         }
     }
 
