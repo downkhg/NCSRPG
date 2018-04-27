@@ -21,7 +21,10 @@ public class NPCNavTarcking : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-           
+        if (m_cPlayer.Dead())
+        {
+            gameObject.SetActive(false);
+        }
     }
     private void OnDrawGizmos()
     {
@@ -39,11 +42,25 @@ public class NPCNavTarcking : MonoBehaviour {
         }
         else
         {
-            //m_cNavMeshAgent.SetDestination(m_cTarget.transform.position);
 
-            if (User.Collision.ColSphere(transform.position, m_fDetectRad, m_cTarget.transform.position) == false)
+           float fDist = User.Collision.ColSphereDist(transform.position, m_fDetectRad, m_cTarget.transform.position);
+
+            if (fDist == -1)
                 m_cTarget = null;
+            else if (fDist > 2)
+                m_cNavMeshAgent.SetDestination(m_cTarget.transform.position);
+            else
+                m_cArm.AttackStart();
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("OnTriggerEnter:"+other.gameObject.name);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Debug.Log("OnTriggerExit:" + other.gameObject.name);
+    }
 }

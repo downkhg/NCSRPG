@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class Wepon : MonoBehaviour {
     bool m_bHit;
+    Collider m_cCollider;
+    Arm m_cArm;
+
+    public Collider GetCollider()
+    {
+        return m_cCollider;
+    }
 
     public bool Hit
     {
         get { return m_bHit; }
     }
 
+    public void InitArm(Arm arm)
+    {
+        m_cArm = arm;
+    }
+
 	// Use this for initialization
 	void Start () {
-		
-	}
+        m_cCollider = GetComponent<Collider>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -25,7 +37,9 @@ public class Wepon : MonoBehaviour {
         if(other.gameObject.tag == "Monster")
         {
             m_bHit = true;
-            Debug.Log("OnTriggerEnter:" + other.gameObject.name);
+            m_cArm.Attack();
+            m_cCollider.enabled = false;
+            //Debug.Log("OnTriggerEnter:" + other.gameObject.name);
         }
     }
 
@@ -34,7 +48,7 @@ public class Wepon : MonoBehaviour {
         if (other.gameObject.tag == "Monster")
         {
             m_bHit = false;
-            Debug.Log("OnTriggerExit:"+other.gameObject.name);
+            //Debug.Log("OnTriggerExit:"+other.gameObject.name);
         }
     }
 

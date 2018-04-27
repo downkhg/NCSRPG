@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour {
     public GameObject m_objPlayer;
     public List<GameObject> m_listMonsters;
 
+    public Transform m_cDeadDumy;
+
 	// Use this for initialization
 	void Start () {
         m_objPlayer.GetComponent<Player>().Set("Player",100,100,20);
@@ -24,16 +26,17 @@ public class GameManager : MonoBehaviour {
         Player cPlayer = m_objPlayer.GetComponent<Player>();
         cPlayerDynamic.SphereCollisionProcess(m_listMonsters);
 
-        //for (int i = 0; i < m_listMonsters.Count; i++)
-        //{
-        //    NPCNavTarcking cNavTracking = m_listMonsters[i].GetComponent<NPCNavTarcking>();
-        //    Player cMonster = m_listMonsters[i].GetComponent<Player>();
+        for (int i = 0; i < m_listMonsters.Count; i++)
+        {
+            NPCNavTarcking cNavTracking = m_listMonsters[i].GetComponent<NPCNavTarcking>();
+            Player cMonster = m_listMonsters[i].GetComponent<Player>();
 
-        //    cNavTracking.SphereCollisionProcess(m_objPlayer);
-        //    if(cMonster.Dead())
-        //    {
-        //        m_listMonsters[i].SetActive(false);
-        //    }
-        //}
+            cNavTracking.SphereCollisionProcess(m_objPlayer);
+            if (cMonster.Dead())
+            {
+                m_listMonsters[i].SetActive(false);
+                m_listMonsters[i].transform.position = m_cDeadDumy.position;
+            }
+        }
     }
 }

@@ -13,6 +13,11 @@ public class Arm : MonoBehaviour {
     bool m_bAttack = false;
     bool m_bRelease = false;
 
+    private void Start()
+    {
+        m_cWepon.InitArm(this);
+    }
+
     private void Update()
     {
         //if (m_bRelease)
@@ -96,14 +101,25 @@ public class Arm : MonoBehaviour {
         }
     }
 
-    public void Attack()
+    public void AttackStart()
     {
         if (m_bAttack == false)
         {
             m_bAttack = true;
-            
+            m_cWepon.GetCollider().enabled = true;
             StartCoroutine("AttackArm");
         }
+    }
+
+    public bool Attack()
+    {
+        if (m_cTarget)
+        {
+            m_cPlayer.Attack(m_cTarget);
+            return true;
+        }
+        else
+            return false;
     }
 
     public void Init(float Attack,Player cPlayer)

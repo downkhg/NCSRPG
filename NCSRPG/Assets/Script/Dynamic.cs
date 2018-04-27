@@ -152,10 +152,11 @@ public class Dynamic : MonoBehaviour {
         float fRotAngle = m_fRotSpeed * Time.deltaTime;
 
         if (Input.GetMouseButtonDown(0))
-        { 
-            m_cArm.Attack();
-            if (m_cTarget)
-                m_cPlayer.Attack(m_cTarget);
+        {
+            m_cArm.m_cTarget = m_cTarget;
+            m_cArm.AttackStart();
+            //if (m_cTarget)
+            //    m_cPlayer.Attack(m_cTarget);
         }
         if (Input.GetKey(KeyCode.W))
         {
