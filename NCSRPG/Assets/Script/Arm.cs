@@ -10,7 +10,7 @@ public class Arm : MonoBehaviour {
     float m_fAttackSpeed;
     float m_fMaxRot = 45;
     float m_fCurRot = 0;
-    bool m_bAttack = false;
+    public bool m_bAttack = false;
     bool m_bRelease = false;
 
     private void Start()
@@ -41,6 +41,7 @@ public class Arm : MonoBehaviour {
     //실행중 지역변수들은 코루틴이 끝날때까지 유지된다.
     IEnumerator AttackArm()
     {
+        Debug.Log("AttackArm");
         float fMaxRot = 45;
         float fCurRot = 0;
 
@@ -56,6 +57,7 @@ public class Arm : MonoBehaviour {
     }
     IEnumerator ReleaseArm()
     {
+        Debug.Log("ReleaseArm");
         float fMaxRot = 45;
         float fCurRot = 0;
 

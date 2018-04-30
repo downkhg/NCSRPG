@@ -386,6 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 335b76c4160b24449bbfe6917e6f6bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_cArm: {fileID: 0}
 --- !u!114 &114468547831346270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -400,6 +401,7 @@ MonoBehaviour:
   m_cPlayer: {fileID: 0}
   m_cTarget: {fileID: 0}
   m_cWepon: {fileID: 114423980363828766}
+  m_bAttack: 0
 --- !u!114 &114796569874232866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -414,6 +416,7 @@ MonoBehaviour:
   m_fRotSpeed: 10
   m_cArm: {fileID: 114468547831346270}
   m_fDetectRad: 5
+  m_fAttakSpeed: 1
   m_cTarget: {fileID: 0}
 --- !u!114 &114812129521867466
 MonoBehaviour:

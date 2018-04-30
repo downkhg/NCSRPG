@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        m_objPlayer.GetComponent<Player>().Set("Player",100,100,20);
+        m_objPlayer.GetComponent<Player>().Set("Player",100,100,20,10,9);
 
         for (int i = 0; i < m_listMonsters.Count; i++)
         {
