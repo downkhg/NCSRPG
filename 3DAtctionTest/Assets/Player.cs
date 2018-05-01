@@ -37,9 +37,10 @@ public class Player : MonoBehaviour {
 
         int nLayerMask = 1 << LayerMask.NameToLayer("Monster");
 
-        Collider[] colliders =  Physics.OverlapSphere(m_cWepon.transform.position,0.5f, nLayerMask);
+        //Collider[] colliders =  Physics.OverlapSphere(m_cWepon.transform.position,0.5f, nLayerMask);
+        Collider[] colliders = Physics.OverlapBox(m_cWepon.transform.position, m_cWepon.transform.localScale, m_cWepon.transform.localRotation, nLayerMask);
 
-        for(int i = 0; i < colliders.Length; i++)
+        for (int i = 0; i < colliders.Length; i++)
         {
             Debug.Log(colliders[i].gameObject.name);
         }
@@ -49,7 +50,8 @@ public class Player : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(m_cWepon.transform.position,0.5f);
+        //Gizmos.DrawWireSphere(m_cWepon.transform.position,0.5f);
+        //Gizmos.DrawWireCube(m_cWepon.transform.position, m_cWepon.transform.localScale);
     }
 
     private void LateUpdate()

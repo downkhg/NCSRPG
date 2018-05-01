@@ -1,0 +1,8 @@
+﻿line[0] = name,HP,MP,STR,INT,DEF,EXP,GOLD\n
+line[1] =Slime,100,100,10,0,0,100,100\n
+line[2] =Skeleton,200,200,20,10,0,100,100\n
+line[3] =Boss,300,300,30,20,0,100,100\n
+
+infos[0] = Slime ..... infos[6] = 100
+
+m_listMonsters[Slime] = Slime,100,100,10,0,0,100,100

@@ -25,10 +25,7 @@ public class NPCNavTarcking : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
      
-        if (m_cPlayer.Dead())
-        {
-            gameObject.SetActive(false);
-        }
+       
     }
     private void OnDrawGizmos()
     {

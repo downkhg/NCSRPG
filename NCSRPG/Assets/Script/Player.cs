@@ -83,6 +83,15 @@ public class Player : MonoBehaviour {
         m_nExp = nExp;
         m_nGold = nGold;
     }
+    public void Set(string name, Status status, int nExp = 0, int nGold = 0)
+    {
+        m_cStatus = status;
+        m_nMaxHP = status.m_nHP;
+        m_nMaxMP = status.m_nMP;
+        m_strName = name;
+        m_nExp = nExp;
+        m_nGold = nGold;
+    }
     public void Attack(Player cTarget)
     {
         cTarget.m_cStatus.m_nHP = cTarget.m_cStatus.m_nHP - (m_cStatus.m_nStr - cTarget.m_cStatus.m_nDef);

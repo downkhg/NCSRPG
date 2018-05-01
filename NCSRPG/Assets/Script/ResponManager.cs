@@ -18,10 +18,6 @@ public class ResponManager : MonoBehaviour {
     public void SetResponPoint(int posIdx, GameObject target)
     {
         Vector3 pos = m_listResponPoint[posIdx].position;
-        
         target.transform.position = new Vector3(pos.x,pos.y,pos.z);
-
-        target.transform.SetParent(m_listResponPoint[posIdx]);
-        target.transform.localPosition= new Vector3(0, 0, 0);
     }
 }

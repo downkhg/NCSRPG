@@ -6,14 +6,20 @@ public class GameManager : MonoBehaviour {
     public GameObject m_objPlayer;
     public List<GameObject> m_listMonsters;
     public ResponManager m_cResponManager;
+    public MonsterManager m_cMonsterManager;
     public int m_nMonsterMax;
+    public int m_nResponTime;
 
     public Transform m_cDeadDumy;
+
+    public Queue<Player> m_queResponQueue = new Queue<Player>();
 
 	// Use this for initialization
 	void Start () {
         m_objPlayer.GetComponent<Player>().Set("Player",100,100,20,10,9);
         m_listMonsters = new List<GameObject>(m_nMonsterMax);
+        m_cMonsterManager = new MonsterManager();
+        m_cMonsterManager.LoadMonsterInfo();
 
         for (int i = 0; i < m_nMonsterMax; i++)
         {
@@ -22,12 +28,12 @@ public class GameManager : MonoBehaviour {
             Player cMonster = objMonster.GetComponent<Player>();
 
             string name = string.Format("Monster{0}", i);
-            cMonster.Set(name);
+            m_cMonsterManager.SetMonsterInfo("Slime", cMonster);
             cMonster.m_nDebugStatusStartX = 100 *( i+1);
             m_cResponManager.SetResponPoint(i, objMonster);
             Debug.Log(m_objPlayer.transform.position);
             cMonster.name = name+ objMonster.transform.position;
-            //cMonster.GetComponent<Rigidbody>().isKinematic = false;
+
             m_listMonsters.Add(objMonster);
         }
     }
@@ -48,7 +54,20 @@ public class GameManager : MonoBehaviour {
             {
                 m_listMonsters[i].SetActive(false);
                 m_listMonsters[i].transform.position = m_cDeadDumy.position;
+
+                m_cResponManager.SetResponPoint(i, m_listMonsters[i]);
+                m_queResponQueue.Enqueue(m_listMonsters[i].GetComponent<Player>());
+                StartCoroutine("MonsterRespron");
             }
         }
+    }
+
+    IEnumerator MonsterRespron()
+    {
+        yield return new WaitForSeconds(m_nResponTime);
+
+        Player cMonster = m_queResponQueue.Dequeue();
+        m_cMonsterManager.SetMonsterInfo("Slime", cMonster);
+        cMonster.gameObject.SetActive(true);
     }
 }
