@@ -57,8 +57,10 @@ public class NPCNavTarcking : MonoBehaviour {
             }
             else if (fDist > 2)
             {
+                //타겟을 잃으면 다시 물리연산을 하도록변경한다.
                 GetComponent<Rigidbody>().isKinematic = false;
                 m_cTarget.GetComponent<Rigidbody>().isKinematic = false;
+
                 m_cNavMeshAgent.SetDestination(m_cTarget.transform.position);
                 transform.LookAt(m_cTarget.transform.position);
                 m_bAuto = false;
@@ -67,8 +69,10 @@ public class NPCNavTarcking : MonoBehaviour {
             {
                 if (m_bAuto == false)
                 {
+                    //밀러나지않도록 대상과 자신의 강체를 물리연산을 하지않도록한다.
                     m_cTarget.GetComponent<Rigidbody>().isKinematic = true;
                     GetComponent<Rigidbody>().isKinematic = true;
+
                     transform.LookAt(m_cTarget.transform.position);
                     m_bAuto = true;
                     StartCoroutine("AutoAttack");
@@ -93,18 +97,8 @@ public class NPCNavTarcking : MonoBehaviour {
         {
             m_cArm.AttackStart();
             //Debug.Log("AutoAttack! loop");
-            yield return new WaitForSeconds(m_fAttakSpeed);
+            yield return new WaitForSeconds(m_fAttakSpeed);//공격속도마다 공격을 부른다.
         }
         //Debug.Log("AutoAttack! 2");
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("OnTriggerEnter:"+other.gameObject.name);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        Debug.Log("OnTriggerExit:" + other.gameObject.name);
     }
 }
