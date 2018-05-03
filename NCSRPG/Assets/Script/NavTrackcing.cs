@@ -5,11 +5,13 @@ using UnityEngine.AI;
 
 public class NavTrackcing : MonoBehaviour {
     public Transform m_transformTarget;
+    public Player m_cPlayer;
     float m_fMinDist = 5;
     NavMeshAgent m_cNavMeshAgent;
     
 	// Use this for initialization
 	void Start () {
+        m_cPlayer = new Player();
         m_cNavMeshAgent = GetComponent<NavMeshAgent>();
 	}
 	

@@ -15,7 +15,11 @@ public class NPC : MonoBehaviour {
         {
             m_cPlayer.SetInvetory(cItemManager.GetItem(i));
         }
+    }
 
+    private void Update()
+    {
+       
     }
 
     //private void OnGUI()

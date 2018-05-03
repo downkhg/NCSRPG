@@ -43,13 +43,18 @@ public class Dynamic : MonoBehaviour {
     public int m_fRotSpeed;
     public Arm m_cArm;
     public float m_fDetectRad;
-    Player m_cPlayer;
+    public Player m_cPlayer = null;
     public Player m_cTarget;
-   
+
+    public void Init()
+    {
+        m_cPlayer.Init("Player",100,100,10,10,9,0,999999999);
+        m_cArm.Init(m_fRotSpeed, m_cPlayer);
+    }
+
     // Use this for initialization
     void Start () {
-        m_cPlayer = new Player("Player") ;// this.gameObject.GetComponent<Player>();
-        m_cArm.Init(m_fRotSpeed, m_cPlayer);
+        
     }
 	
 	// Update is called once per frame
@@ -58,13 +63,15 @@ public class Dynamic : MonoBehaviour {
         {
             gameObject.SetActive(false);
         }
-        if(tag == "Player")
-            InputProcess();
+
+         InputProcess();
     }
     //게임에서 간단한 테스트용 UI로 사용됨.
     private void OnGUI()
     {
-       for(int i = 0; i<m_cPlayer.GetIventorySize(); i++)
+        if (m_cPlayer == null) return;
+
+        for (int i = 0; i<m_cPlayer.GetIventorySize(); i++)
         {
             GUI.Box(new Rect(Screen.width - 100, 20*i, 100, 20), m_cPlayer.GetInvetory(i).Name);
         }

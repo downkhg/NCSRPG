@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
     public ResponManager m_cResponManager;
     public MonsterManager m_cMonsterManager;
     public ItemManager m_cItemManager;
+    public GUIManager m_cGUIManager;
     public int m_nMonsterMax;
     public int m_nResponTime;
 
@@ -26,8 +27,8 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         m_cInstance = this;
-
-        m_objPlayer.GetComponent<Player>().Set("Player",100,100,20,10,9);
+        Dynamic cDynamic  = m_objPlayer.GetComponent<Dynamic>();
+        cDynamic.Init();
         m_listMonsters = new List<GameObject>(m_nMonsterMax);
         m_cMonsterManager = new MonsterManager();
         m_cMonsterManager.LoadMonsterInfo();
@@ -53,7 +54,6 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Dynamic cPlayerDynamic = m_objPlayer.GetComponent<Dynamic>();
-        Player cPlayer = m_objPlayer.GetComponent<Player>();
         cPlayerDynamic.SphereCollisionProcess(m_listMonsters);
 
         for (int i = 0; i < m_listMonsters.Count; i++)
@@ -70,6 +70,14 @@ public class GameManager : MonoBehaviour {
                 m_cResponManager.SetResponPoint(i, m_listMonsters[i]);
                 m_queResponQueue.Enqueue(m_listMonsters[i].GetComponent<Player>());
                 StartCoroutine("MonsterRespron");
+            }
+        }
+
+        if (m_cGUIManager.m_objSelect.activeSelf == false)
+        {
+            if (User.Collision.ColSphere(m_cNPC.transform.position, 3, cPlayerDynamic.transform.position))
+            {
+                m_cGUIManager.m_objSelect.SetActive(true);
             }
         }
     }

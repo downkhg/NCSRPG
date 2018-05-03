@@ -66,7 +66,12 @@ public class Player : MonoBehaviour {
     List<Item> m_listEqument = new List<Item>((int)eEqumentKind.MAX); //장비함.
     public enum eEqumentKind { Weapon, Armor, Acc, MAX }
 
-    public Player(string name, int nHP = 100, int nMP = 100, int nStr = 10, int nInt = 10, int nDef = 10, int nExp = 10, int nGold = 0)
+    public Player(string name = "", int nHP = 100, int nMP = 100, int nStr = 10, int nInt = 10, int nDef = 10, int nExp = 10, int nGold = 0)
+    {
+        Init(name, nHP, nMP, nStr, nInt, nDef, nExp, nGold);
+    }
+
+    public void Init(string name = "", int nHP = 100, int nMP = 100, int nStr = 10, int nInt = 10, int nDef = 10, int nExp = 10, int nGold = 0)
     {
         m_listIventory = new List<Item>();
         Set(name, nHP, nMP, nStr, nInt, nDef, nExp, nGold);
@@ -75,6 +80,7 @@ public class Player : MonoBehaviour {
         for (int i = 0; i < (int)eEqumentKind.MAX; i++)
             m_listEqument.Add(null);
     }
+
     public void Set(string name, int nHP = 100, int nMP = 100, int nStr = 10, int nInt = 10, int nDef = 10, int nExp = 10, int nGold = 0)
     {
         m_cStatus = new Status(nStr, nDef, nInt, nHP, nMP);
