@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     public GameObject m_objPlayer;
+    public NPC m_cNPC;
     public List<GameObject> m_listMonsters;
     public ResponManager m_cResponManager;
     public MonsterManager m_cMonsterManager;
+    public ItemManager m_cItemManager;
     public int m_nMonsterMax;
     public int m_nResponTime;
 
@@ -14,12 +16,22 @@ public class GameManager : MonoBehaviour {
 
     public Queue<Player> m_queResponQueue = new Queue<Player>();
 
+    static GameManager m_cInstance;
+
+    public static GameManager GetInstance()
+    {
+        return m_cInstance;
+    }
+
 	// Use this for initialization
 	void Start () {
+        m_cInstance = this;
+
         m_objPlayer.GetComponent<Player>().Set("Player",100,100,20,10,9);
         m_listMonsters = new List<GameObject>(m_nMonsterMax);
         m_cMonsterManager = new MonsterManager();
         m_cMonsterManager.LoadMonsterInfo();
+        m_cNPC.Init();
 
         for (int i = 0; i < m_nMonsterMax; i++)
         {
@@ -48,8 +60,8 @@ public class GameManager : MonoBehaviour {
         {
             NPCNavTarcking cNavTracking = m_listMonsters[i].GetComponent<NPCNavTarcking>();
             Player cMonster = m_listMonsters[i].GetComponent<Player>();
-
             cNavTracking.SphereCollisionProcess(m_objPlayer);
+
             if (cMonster.Dead())
             {
                 m_listMonsters[i].SetActive(false);

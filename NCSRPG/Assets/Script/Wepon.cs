@@ -34,7 +34,8 @@ public class Wepon : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == m_cArm.m_cTarget.tag)
+        if(m_cArm.m_cTarget != null &&
+           other.gameObject.tag == m_cArm.m_cTarget.tag)
         {
             m_bHit = true;
             m_cArm.Attack();
@@ -45,7 +46,8 @@ public class Wepon : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == m_cArm.m_cTarget.tag)
+        if (m_cArm.m_cTarget != null &&
+            other.gameObject.tag == m_cArm.m_cTarget.tag)
         {
             m_bHit = false;
             //Debug.Log("OnTriggerExit:"+other.gameObject.name);

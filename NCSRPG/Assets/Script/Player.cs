@@ -68,6 +68,7 @@ public class Player : MonoBehaviour {
 
     public Player(string name, int nHP = 100, int nMP = 100, int nStr = 10, int nInt = 10, int nDef = 10, int nExp = 10, int nGold = 0)
     {
+        m_listIventory = new List<Item>();
         Set(name, nHP, nMP, nStr, nInt, nDef, nExp, nGold);
         m_nLv = 1;
         m_listEqument = new List<Item>((int)eEqumentKind.MAX); //장비함.
@@ -140,6 +141,10 @@ public class Player : MonoBehaviour {
     public void DeleteInventory(Item item)
     {
         m_listIventory.Remove(item);
+    }
+    public int GetIventorySize()
+    {
+        return m_listIventory.Count;
     }
 
     public bool Buy(int nIventoryIdx, Player cTarget)

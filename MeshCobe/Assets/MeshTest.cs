@@ -17,7 +17,6 @@ public class MeshTest : MonoBehaviour {
     private void OnDrawGizmos()
     {
         Matrix4x4 mat = this.transform.worldToLocalMatrix;
-
         Vector3[] vectices = m_cMesh.vertices;
 
         for(int i = 0; i<vectices.Length; i++)

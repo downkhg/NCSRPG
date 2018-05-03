@@ -48,7 +48,7 @@ public class Dynamic : MonoBehaviour {
    
     // Use this for initialization
     void Start () {
-        m_cPlayer = this.gameObject.GetComponent<Player>();
+        m_cPlayer = new Player("Player") ;// this.gameObject.GetComponent<Player>();
         m_cArm.Init(m_fRotSpeed, m_cPlayer);
     }
 	
@@ -64,7 +64,10 @@ public class Dynamic : MonoBehaviour {
     //게임에서 간단한 테스트용 UI로 사용됨.
     private void OnGUI()
     {
-       
+       for(int i = 0; i<m_cPlayer.GetIventorySize(); i++)
+        {
+            GUI.Box(new Rect(Screen.width - 100, 20*i, 100, 20), m_cPlayer.GetInvetory(i).Name);
+        }
     }
 
     private void OnDrawGizmos()
