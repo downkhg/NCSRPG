@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Push/push.unity
+- path: Assets/SceneChange/Resouce.unity
   isLoaded: 1
   isActive: 1
