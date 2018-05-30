@@ -26,7 +26,10 @@ public class DynamicPush : MonoBehaviour {
             fRotation *= Time.deltaTime;
             transform.Translate(0, 0, fTranslation);
             transform.Rotate(0, fRotation, 0);
+            m_cRigidbody.isKinematic = false;
         }
+        else if(m_cRigidbody.isKinematic == false)
+            m_cRigidbody.isKinematic = true;
     }
 
     private void OnCollisionEnter(Collision collision)

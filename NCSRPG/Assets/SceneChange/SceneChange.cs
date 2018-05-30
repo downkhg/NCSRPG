@@ -15,11 +15,11 @@ public class ClassItem
 public class SceneChange : MonoBehaviour {
     public List<ClassItem> m_listItems = new List<ClassItem>();
     public List<GameObject> m_listGameObject = new List<GameObject>();
-    public static int m_nSceneIdx = -1;
+    public static int m_nSceneIdx = 0;
 
 	// Use this for initialization
 	void Start () {
-        if (m_nSceneIdx == -1)
+        if (m_nSceneIdx == 0)
         {
             //첫번째 씬이라면 필요한 오브젝트를 생성하고 파괴시키지않는다.
             m_listItems.Add(new ClassItem("A"));
@@ -35,7 +35,7 @@ public class SceneChange : MonoBehaviour {
             m_listGameObject.Add(GameObject.Find("C"));
             m_listGameObject.Add(GameObject.Find("D"));
 
-            m_nSceneIdx = 0;
+            m_nSceneIdx = 1;
             //해당씬에서 만든 모든 오브젝트를 파괴시키지않도록 설정한다.
             DontDestroyOnLoad(this);
             //for (int i = 0; i < m_listGameObject.Count; i++)
@@ -55,10 +55,10 @@ public class SceneChange : MonoBehaviour {
         {
             if (m_nSceneIdx == 1)
             {
-                m_nSceneIdx = 0;
+                m_nSceneIdx = 2;
                 
             }
-            else if (m_nSceneIdx == 0)
+            else if (m_nSceneIdx == 2)
             {
                 m_nSceneIdx = 1;
             }
@@ -67,7 +67,7 @@ public class SceneChange : MonoBehaviour {
 
         if (GUI.Button(new Rect(Screen.width - 100, 30, 100, 30), "Change Resouce"))
         {
-            m_nSceneIdx = -1;
+            m_nSceneIdx = 0;
             SceneManager.LoadScene("Resouce");
         }
 

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/SceneChange/Resouce.unity
+- path: Assets/GameVR.unity
   isLoaded: 1
   isActive: 1
