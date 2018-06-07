@@ -52,11 +52,12 @@ public class Billboard : MonoBehaviour {
             yield return new WaitForSeconds(m_fFrameTime);
             if (nCount % m_nMaxRow == 0 && nCount != 0)
             {
+                //텍스쳐의 행을 변경한다.
                 vTexOffset.x  = 0;
                 vTexOffset.y += vTexSize.y;
             }
             else
-                vTexOffset.x += vTexSize.x;
+                vTexOffset.x += vTexSize.x; //텍스쳐 시작위치를 오른쪽으로 옮김
             SetTextureUV(vTexOffset, vTexSize);
             nCount++;
         }

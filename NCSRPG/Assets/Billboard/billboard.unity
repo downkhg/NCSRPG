@@ -155,9 +155,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_cCamera: {fileID: 1720061567}
-  m_objQuad: {fileID: 0}
+  m_objQuad: {fileID: 1195397136}
   m_nMaxCol: 4
-  m_nMaxRow: 0
+  m_nMaxRow: 4
   m_fFrameTime: 0.2
 --- !u!1 &992401092
 GameObject:
