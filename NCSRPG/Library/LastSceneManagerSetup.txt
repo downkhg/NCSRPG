@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Rotation/Rotation.unity
+- path: Assets/Reflect/test.unity
   isLoaded: 1
   isActive: 1

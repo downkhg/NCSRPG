@@ -39,7 +39,7 @@ public class ReflectSphere : MonoBehaviour {
         vOutDir = vDoubleNor + vInDir; //4. 3의 결과에 입사각을 더함.
         Debug.Log("Dot:"+fDot+" Cos("+Mathf.Cos(fDot) + ")");
         Debug.Log("RefrectDir(U):"+ vOutDir);
-        vOutDir = Vector3.Reflect(vInDir, vNor);
+        //vOutDir = Vector3.Reflect(vInDir, vNor);
         Debug.Log("RefrectDir:" + vOutDir);
         m_vDir = vOutDir;
         Debug.Log("Dir(U):" + m_vDir);  
