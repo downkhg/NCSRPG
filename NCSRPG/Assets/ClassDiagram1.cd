@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GUIManager">
+    <Position X="1.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IBQgAAAAACCQABIAEAAAAAEEIAEAQAAARAAQgAAAABA=</HashCode>
+      <FileName>Assets\Script\GUI\GUIManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUIBarStatus">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAQAAAAQAAAAAA=</HashCode>
+      <FileName>Assets\Script\GUI\GUIBarStatus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Joystick">
+    <Position X="3.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAACAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\GUI\Joystick.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CopyOfJoystick">
+    <Position X="3.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAACAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\GUI\Joystick.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>

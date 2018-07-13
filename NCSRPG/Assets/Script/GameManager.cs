@@ -80,6 +80,13 @@ public class GameManager : MonoBehaviour {
                 m_cGUIManager.m_objSelect.SetActive(true);
             }
         }
+
+        Player cPlayer = m_objPlayer.GetComponent<Player>();
+        m_cGUIManager.m_cHPStatus.SetHP(cPlayer.Status.m_nHP, cPlayer.MaxHP);
+
+
+        Dynamic cDynamic = m_objPlayer.GetComponent<Dynamic>();
+        cDynamic.JoystickMove(m_cGUIManager.m_cJoystick.m_vecDir);
     }
 
     IEnumerator MonsterRespron()
@@ -89,5 +96,11 @@ public class GameManager : MonoBehaviour {
         Player cMonster = m_queResponQueue.Dequeue();
         m_cMonsterManager.SetMonsterInfo("Slime", cMonster);
         cMonster.gameObject.SetActive(true);
+    }
+
+    public void PlayerAttack()
+    {
+        Dynamic cDynamic = m_objPlayer.GetComponent<Dynamic>();
+        cDynamic.Attack();
     }
 }

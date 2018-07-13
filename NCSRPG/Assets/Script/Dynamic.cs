@@ -64,7 +64,7 @@ public class Dynamic : MonoBehaviour {
             gameObject.SetActive(false);
         }
 
-         InputProcess();
+        //InputProcess();
     }
     //게임에서 간단한 테스트용 UI로 사용됨.
     private void OnGUI()
@@ -185,4 +185,59 @@ public class Dynamic : MonoBehaviour {
             transform.Rotate(Vector3.up * m_fRotSpeed);
         }
     }
+
+    public void Attack()
+    {
+        m_cArm.m_cTarget = m_cTarget;
+        m_cArm.AttackStart();
+    }
+
+    public Vector3 m_vPreVector;
+
+    //조이스틱 벡터
+    public void JoystickMove(Vector3 vJoysickMove)
+    {
+        if(vJoysickMove.magnitude > 0.1f) //조이스틱이 10%이상 움직였을때
+        {
+            float fMoveDist = m_fMoveSpeed * Time.deltaTime;
+
+            if(Input.GetMouseButton(0))//마우스(터치)를 클릭상태하고 있을때
+            {
+                Debug.Log("vJoysickMove:" + vJoysickMove);
+                //조이스틱의 방향이 바뀌고있을때만 회전을 처리한다.
+                if (m_vPreVector != vJoysickMove) 
+                {
+                    //조이패드좌표는 x,y이므로 결과로 나오는 축은 z축이다.
+                    //결과의 z축이 -라면 시계방향, +라면 반시계방향으로 회전한다.
+                    Vector3 vAsix = Vector3.Cross(m_vPreVector, vJoysickMove);
+                    Debug.Log("Asix:" + vAsix);
+                    if (vAsix.z < 0)
+                        vAsix = Vector3.up;
+                    else
+                        vAsix = Vector3.down;
+
+                    transform.Rotate(vAsix * m_fRotSpeed);
+                }
+                //조이스틱이 고정되서 움직일때는 이동만 발생시킨다.
+                else
+                {
+                    //3인칭 백뷰에서 실행되므로 이동시에는 항상 케릭터 방향으로 이동시키므로,
+                    //y의 값이 0이 아닐때 앞뒤를 구별한다.
+                    if (vJoysickMove.y > 0)
+                        transform.Translate(Vector3.forward * fMoveDist);
+                    else if (vJoysickMove.y < 0)
+                        transform.Translate(Vector3.back * fMoveDist);
+                }
+                //이전 조이스틱의 값에 현재 조이스틱의 벡터를 저장한다.
+                m_vPreVector = vJoysickMove;
+
+                Debug.Log("PreVector:" + m_vPreVector);
+            }
+        }
+    }
+
+   //IEnumerator UpDataDownVector()
+   // {
+        
+   // }
 }
