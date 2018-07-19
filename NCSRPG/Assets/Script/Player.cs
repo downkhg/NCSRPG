@@ -148,6 +148,10 @@ public class Player : MonoBehaviour {
     {
         m_listIventory.Remove(item);
     }
+    public void DeleteInventory(int idx)
+    {
+        m_listIventory.Remove(m_listIventory[idx]);
+    }
     public int GetIventorySize()
     {
         return m_listIventory.Count;
@@ -210,6 +214,14 @@ public class Player : MonoBehaviour {
     private void OnGUI()
     {
         string  strStatus= string.Format("Name:{0}\nHP{1}\n", m_strName, m_cStatus.m_nHP);
-        GUI.Box(new Rect(m_nDebugStatusStartX, 0, 100, 100), strStatus);
+        //GUI.Box(new Rect(m_nDebugStatusStartX, 0, 100, 100), strStatus);
+
+        if (m_listIventory != null)
+        {
+            for (int i = 0; i < m_listIventory.Count; i++)
+            {
+                GUI.Box(new Rect(0, i * 20, 100, 20), m_listIventory[i].Name);
+            }
+        }
     }
 }

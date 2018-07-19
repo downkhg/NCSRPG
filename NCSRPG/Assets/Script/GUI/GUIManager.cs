@@ -65,6 +65,8 @@ public class GUIManager : MonoBehaviour {
     public GUIBarStatus m_cHPStatus;
     public GUIBarStatus m_cSpeedStatus;
 
+    public GUIInvetoryManager m_cInventoryManager;
+
     //private void OnGUI()
     //{
     //    if(GUI.Button(new Rect(0,100,100,100),""))
@@ -81,7 +83,10 @@ public class GUIManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+        
+        
+
 	}
 
     public void EventButtonBuy(int idx)
@@ -96,6 +101,7 @@ public class GUIManager : MonoBehaviour {
     {
         Player cPlayer = GameManager.GetInstance().m_objPlayer.GetComponent<Dynamic>().m_cPlayer;
         cPlayer.Sell(idx);
+        m_cInventoryManager.Delete(idx);
         SetList(cPlayer, false);
         Debug.Log("Sell:" + idx);
     }
@@ -127,6 +133,13 @@ public class GUIManager : MonoBehaviour {
         m_objList.SetActive(false);
         m_objSelect.SetActive(true);
         ReleaseList();
+    }
+
+    public void EvnetClockItemSlot(int idx)
+    {
+        Player cPlayer = GameManager.GetInstance().m_objPlayer.GetComponent<Player>();
+        m_cInventoryManager.Delete(idx);
+        cPlayer.DeleteInventory(idx);
     }
 
 }

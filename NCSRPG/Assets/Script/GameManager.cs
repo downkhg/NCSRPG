@@ -87,6 +87,19 @@ public class GameManager : MonoBehaviour {
 
         Dynamic cDynamic = m_objPlayer.GetComponent<Dynamic>();
         cDynamic.JoystickMove(m_cGUIManager.m_cJoystick.m_vecDir);
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (m_cGUIManager.m_cInventoryManager.gameObject.activeSelf == false)
+            {
+                m_cGUIManager.m_cInventoryManager.Set(cPlayer);
+                m_cGUIManager.m_cInventoryManager.gameObject.SetActive(true);
+            }
+            else
+            {
+                m_cGUIManager.m_cInventoryManager.gameObject.SetActive(false);
+            }
+        }
     }
 
     IEnumerator MonsterRespron()
