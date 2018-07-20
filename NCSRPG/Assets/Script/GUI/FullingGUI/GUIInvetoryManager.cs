@@ -13,7 +13,7 @@ public class GUIInvetoryManager : MonoBehaviour {
 
     public void Set(int idx,Item item)
     {
-        m_listItemSlots[idx].Set(item);
+        m_listItemSlots[idx].Set(item,idx);
         Button btn = m_listItemSlots[idx].gameObject.GetComponent<Button>();
         btn.onClick.AddListener(() => GameManager.GetInstance().m_cGUIManager.EvnetClockItemSlot(idx));
         m_nItemCount++;
@@ -56,7 +56,7 @@ public class GUIInvetoryManager : MonoBehaviour {
             {
                 if (m_listItemSlots[i].GetItem() == null)
                 {
-                    Item item = player.GetInvetory(nInvenIdx);
+                    Item item = player.GetInventory(nInvenIdx);
                     Debug.Log("ItemIdx(" + item.Name + "):" + i +"/"+nInvenIdx );
                     Set(i,item);
                     nInvenIdx++;

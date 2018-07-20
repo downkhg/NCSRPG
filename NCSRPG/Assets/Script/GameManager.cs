@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour {
         m_cMonsterManager.SetMonsterInfo("Slime", cMonster);
         cMonster.gameObject.SetActive(true);
     }
-
+    
     public void PlayerAttack()
     {
         Dynamic cDynamic = m_objPlayer.GetComponent<Dynamic>();

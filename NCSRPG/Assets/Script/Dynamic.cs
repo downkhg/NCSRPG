@@ -165,8 +165,8 @@ public class Dynamic : MonoBehaviour {
         {
             m_cArm.m_cTarget = m_cTarget;
             m_cArm.AttackStart();
-            //if (m_cTarget)
-            //    m_cPlayer.Attack(m_cTarget);
+            if (m_cTarget)
+                m_cPlayer.Attack(m_cTarget);
         }
         if (Input.GetKey(KeyCode.W))
         {

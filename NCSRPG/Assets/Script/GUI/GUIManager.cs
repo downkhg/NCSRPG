@@ -23,7 +23,7 @@ public class GUIManager : MonoBehaviour {
             GameObject objButton =  Instantiate(Resources.Load("Prefaps/Button") as GameObject);
             //버튼의 자식객체중에 "Text"게임오브젝트를 찾아서 그 오브젝트의 UI Text스크립트를 가져옴.
             Text text = objButton.transform.Find("Text").GetComponent<Text>();
-            text.text = target.GetInvetory(i).Name;
+            text.text = target.GetInventory(i).Name;
             if (text)
                 m_listButton.Add(objButton);
             else
@@ -66,6 +66,9 @@ public class GUIManager : MonoBehaviour {
     public GUIBarStatus m_cSpeedStatus;
 
     public GUIInvetoryManager m_cInventoryManager;
+    public GUIItemSlot m_cItemSlotDrag;
+    public int m_nItemDragIdx = -1;
+    public bool m_bDropItem = false;
 
     //private void OnGUI()
     //{
@@ -80,13 +83,55 @@ public class GUIManager : MonoBehaviour {
     void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
 
-        
-        
+    bool BoxToPoint(Vector3 vTop, Vector3 vBottom, Vector3 vPoint)
+    {
+        if (vTop.x > vPoint.x)
+            return false;
+        if (vTop.y > vPoint.y)
+            return false;
+        if (vBottom.x < vPoint.x)
+            return false;
+        if (vBottom.y < vPoint.y)
+            return false;
 
+        return true;
+    }
+
+    // Update is called once per frame
+    void OnGUI () {
+        RectTransform rectItemDrag = m_cItemSlotDrag.GetComponent<RectTransform>();
+        RectTransform rectIvetoryTransform = m_cInventoryManager.GetComponent<RectTransform>();
+
+        Rect rectIventory = new Rect(Screen.width, Screen.height, rectIvetoryTransform.sizeDelta.x, rectIvetoryTransform.sizeDelta.y);
+        rectIventory.x = (Screen.width - rectIventory.width) / 2;
+        rectIventory.y = (Screen.height - rectIventory.height) / 2;
+ 
+        Vector3 vTop = rectIventory.position;
+        Vector2 vBottom = new Vector3(vTop.x + rectIvetoryTransform.sizeDelta.x, rectIvetoryTransform.sizeDelta.y, 0);
+
+        GUI.Box(rectIventory, "Mouse(" + Input.mousePosition.x + "," + Input.mousePosition.y + ")\n"+
+                              "(" + rectIventory.x + "," + rectIventory.y + ")\n" +
+                              "(" + rectIventory.width + "," + rectIventory.height + ")\n"+
+                              "(" + vTop.x + "," + vTop.y + ")\n" +
+                              "(" + vBottom.x + "," + vBottom.y + ")\n");
+
+        if(m_nItemDragIdx != -1)
+            m_cItemSlotDrag.gameObject.GetComponent<RectTransform>().position = Input.mousePosition;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            //Debug.Log("Update Check!!");
+
+            if (BoxToPoint(vTop, vBottom, Input.mousePosition) == false)
+            {
+                Debug.Log("Check!!");
+                m_bDropItem = true;
+            }
+            else
+                m_bDropItem = false;
+           
+        }
 	}
 
     public void EventButtonBuy(int idx)
@@ -137,9 +182,20 @@ public class GUIManager : MonoBehaviour {
 
     public void EvnetClockItemSlot(int idx)
     {
-        Player cPlayer = GameManager.GetInstance().m_objPlayer.GetComponent<Player>();
-        m_cInventoryManager.Delete(idx);
-        cPlayer.DeleteInventory(idx);
+        m_nItemDragIdx = idx;
+        m_cItemSlotDrag.Set(m_cInventoryManager.m_listItemSlots[idx].GetItem(), 
+                            m_cInventoryManager.m_listItemSlots[idx].m_nIventoryIdx);
+    }
+
+    public void EvnetDropDownItem()
+    {
+        if (m_bDropItem)
+        {
+            Player cPlayer = GameManager.GetInstance().m_objPlayer.GetComponent<Player>();
+            m_cInventoryManager.Delete(m_nItemDragIdx);
+            cPlayer.DeleteInventory(m_cItemSlotDrag.GetItem());
+            m_nItemDragIdx = -1;
+        }
     }
 
 }

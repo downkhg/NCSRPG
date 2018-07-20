@@ -113,7 +113,7 @@ public class Player : MonoBehaviour {
     }
     public void StillItem(Player cTarget)
     {
-        SetInvetory(cTarget.GetInvetory(0));
+        SetInvetory(cTarget.GetInventory(0));
         m_nExp += cTarget.m_nExp;
     }
     public void Recovery()
@@ -140,7 +140,7 @@ public class Player : MonoBehaviour {
     {
         m_listIventory.Add(item);
     }
-    public Item GetInvetory(int idx)
+    public Item GetInventory(int idx)
     {
         return m_listIventory[idx];
     }
@@ -159,7 +159,7 @@ public class Player : MonoBehaviour {
 
     public bool Buy(int nIventoryIdx, Player cTarget)
     {
-        Item cItem = cTarget.GetInvetory(nIventoryIdx);
+        Item cItem = cTarget.GetInventory(nIventoryIdx);
 
         if (cItem.Gold <= m_nGold)
         {
@@ -172,7 +172,7 @@ public class Player : MonoBehaviour {
     }
     public void Sell(int nIventoryIdx)
     {
-        Item cItem = GetInvetory(nIventoryIdx);
+        Item cItem = GetInventory(nIventoryIdx);
         DeleteInventory(cItem);
         m_nGold += cItem.Gold;
     }
